@@ -25,6 +25,8 @@ The following is the list of the problems solved. Each problem id is specified b
 ### Qualification Round
 
 * ✓ [A: Magic Trick][qual1] (`magic-trick`)
+* ? [B: Cookie Clicker Alpha][qual2] (`cookie-clicker-alpha`)
 
 [1]: https://code.google.com/codejam
 [qual1]: https://code.google.com/codejam/contest/2974486/dashboard#s=p0
+[qual2]: https://code.google.com/codejam/contest/2974486/dashboard#s=p1
