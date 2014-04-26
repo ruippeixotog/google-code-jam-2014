@@ -26,7 +26,7 @@ The following is the list of the problems solved. Each problem id is specified b
 
 * ✓ [A: Magic Trick][qual1] (`magic-trick`)
 * ✓ [B: Cookie Clicker Alpha][qual2] (`cookie-clicker-alpha`)
-* ✗ [D: Deceitful War][qual4] (`deceitful-war`)
+* ✓ [D: Deceitful War][qual4] (`deceitful-war`)
 
 ### Round 1A
 
