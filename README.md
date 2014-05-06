@@ -33,9 +33,18 @@ The following is the list of the problems solved. Each problem id is specified b
 * ✗ [A: Charging Chaos][round1a1] (`charging-chaos`)
 * ✗ [B: Full Binary Tree][round1a2] (`full-binary-tree`)
 
+### Round 1B
+
+* ✗ [A: The Repeater][round1b1] (`the-repeater`)
+* ✗ [B: New Lottery Game][round1b2] (`new-lottery-game`)
+* ✗ [C: The Bored Traveling Salesman][round1b3] (`the-bored-traveling-salesman`)
+
 [1]: https://code.google.com/codejam
 [qual1]: https://code.google.com/codejam/contest/2974486/dashboard#s=p0
 [qual2]: https://code.google.com/codejam/contest/2974486/dashboard#s=p1
 [qual4]: https://code.google.com/codejam/contest/2974486/dashboard#s=p3
 [round1a1]: https://code.google.com/codejam/contest/2984486/dashboard#s=p0
 [round1a2]: https://code.google.com/codejam/contest/2984486/dashboard#s=p1
+[round1b1]: https://code.google.com/codejam/contest/2994486/dashboard#s=p0
+[round1b2]: https://code.google.com/codejam/contest/2994486/dashboard#s=p1
+[round1b3]: https://code.google.com/codejam/contest/2994486/dashboard#s=p2
