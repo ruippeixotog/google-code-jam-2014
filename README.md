@@ -39,6 +39,12 @@ The following is the list of the problems solved. Each problem id is specified b
 * ✗ [B: New Lottery Game][round1b2] (`new-lottery-game`)
 * ✗ [C: The Bored Traveling Salesman][round1b3] (`the-bored-traveling-salesman`)
 
+### Round 1C
+
+* ✓ [A: Part Elf][round1c1] (`part-elf`)
+* ✗ [B: Reordering Train Cars][round1c2] (`reordering-train-cars`)
+* ✗ [C: Enclosure][round1c3] (`enclosure`)
+
 [1]: https://code.google.com/codejam
 [qual1]: https://code.google.com/codejam/contest/2974486/dashboard#s=p0
 [qual2]: https://code.google.com/codejam/contest/2974486/dashboard#s=p1
@@ -48,3 +54,6 @@ The following is the list of the problems solved. Each problem id is specified b
 [round1b1]: https://code.google.com/codejam/contest/2994486/dashboard#s=p0
 [round1b2]: https://code.google.com/codejam/contest/2994486/dashboard#s=p1
 [round1b3]: https://code.google.com/codejam/contest/2994486/dashboard#s=p2
+[round1c1]: https://code.google.com/codejam/contest/3004486/dashboard#s=p0
+[round1c2]: https://code.google.com/codejam/contest/3004486/dashboard#s=p1
+[round1c3]: https://code.google.com/codejam/contest/3004486/dashboard#s=p2

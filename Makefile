@@ -4,8 +4,10 @@ ROUND1A_CC_FILES = $(wildcard round1a/*.cpp)
 ROUND1A_BIN_FILES = $(patsubst round1a/%.cpp, %, $(ROUND1A_CC_FILES))
 ROUND1B_CC_FILES = $(wildcard round1b/*.cpp)
 ROUND1B_BIN_FILES = $(patsubst round1b/%.cpp, %, $(ROUND1B_CC_FILES))
+ROUND1C_CC_FILES = $(wildcard round1c/*.cpp)
+ROUND1C_BIN_FILES = $(patsubst round1c/%.cpp, %, $(ROUND1C_CC_FILES))
 
-BIN_FILES = $(QUAL_BIN_FILES) $(ROUND1A_BIN_FILES) $(ROUND1B_BIN_FILES)
+BIN_FILES = $(QUAL_BIN_FILES) $(ROUND1A_BIN_FILES) $(ROUND1B_BIN_FILES) $(ROUND1C_BIN_FILES)
 CC_FLAGS = -Wall -O2 -lm
 CC = g++
 
@@ -22,6 +24,9 @@ $(ROUND1A_BIN_FILES):%: round1a/%.cpp
 	$(CC) $(CC_FLAGS) -o $@ $<
 
 $(ROUND1B_BIN_FILES):%: round1b/%.cpp
+	$(CC) $(CC_FLAGS) -o $@ $<
+
+$(ROUND1C_BIN_FILES):%: round1c/%.cpp
 	$(CC) $(CC_FLAGS) -o $@ $<
 
 clean:
