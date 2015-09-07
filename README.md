@@ -1,6 +1,6 @@
-# Solutions to Google Code Jam 2014 problems
+# Google Code Jam 2014
 
-This repository contains solutions to the [Google Code Jam 2014][1] problems. These solutions are provided "as is". I give no guarantees that they will work as expected.
+This repository contains my solutions to the problems from [Google Code Jam 2014][1]. These solutions are provided "as is" - I give no guarantees that they will work as expected.
 
 ## Instructions
 
@@ -8,11 +8,11 @@ You can compile all the problems by issuing the following command:
 
     $ make
 
-If you want to compile only a specific problem, issue the following command, replacing `<problem_id>` with the section and id of the problem you want to compile (see section "Problems Solved" for the list of possible ids):
+If you want to compile only a specific problem, issue the following command, replacing `<problem_id>` with the section and identifier of the problem you want to compile (see section "Problems Solved" for the list of possible identifiers):
 
     $ make <problem_id>
 
-Running a compiled problem is just a matter of executing a command similar to the next one, replacing `<problem_id>` with the id of the desired problem:
+Running a compiled problem is just a matter of executing a command similar to the next one, replacing `<problem_id>` with the identifier of the desired problem:
 
     $ ./<problem_id>
 
@@ -20,7 +20,7 @@ Unless stated otherwise, every problem in this repository reads from the standar
 
 ## Problems Solved
 
-The following is the list of the problems solved. Each problem id is specified between round brackets. Problems marked with ✓ are done, while problems with ✗ are not complete and/or aren't efficient enough.
+The following is the list of the problems solved. Each problem identifier is specified between round brackets. Problems marked with ✓ are done, while problems with ✗ are not complete or aren't efficient enough for the problem's limits.
 
 ### Qualification Round
 
