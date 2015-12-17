@@ -1,4 +1,7 @@
-*~
+*
+!*.*
+
+!Makefile
 *.in
 *.out
 *.exe
