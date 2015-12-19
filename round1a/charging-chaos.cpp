@@ -1,47 +1,42 @@
-#include <algorithm>
-#include <cstdio>
-#include <cstring>
 #include <iostream>
+#include <set>
+#include <string>
 
-#define MAXN 10
-#define MAXL 10
+#define ll long long
+
+#define MAXN 150
 #define INF 1e8
 
 using namespace std;
 
 int n, l;
+ll devices[MAXN], flows[MAXN];
 
-int devices[MAXN], flows[MAXN];
-
-int readBin() {
-  int b; cin >> b;
-  int d = 0, mult = 1;
-  while(b != 0) {
-    d += b % 2 ? mult : 0;
-    mult *= 2;
-    b /= 10;
+ll readBin() {
+  string str; cin >> str;
+  ll b = 0;
+  for(int i = 0; i < str.length(); i++) {
+    b = (b << 1) + (str[i] == '1');
   }
-  return d;
+  return b;
 }
 
-bool check(int mask) {
-  int fs[MAXN];
+int bitCount(ll n) {
+  int count = 0;
+  while(n) { count++; n &= n - 1; }
+  return count;
+}
+
+int tryMatch(int d) {
+  ll mask = devices[d] ^ flows[0];
+  set<ll> deviceSet;
   for(int i = 0; i < n; i++) {
-    fs[i] = flows[i] ^ mask;
+    if(i != d) deviceSet.insert(devices[i]);
   }
-  sort(fs, fs + n);
-
-  return memcmp(devices, fs, n * sizeof(int)) == 0;
-}
-
-int dfs(int k, int mask, int flips) {
-  if(k == l) {
-    return check(mask) ? flips : INF;
+  for(int i = 1; i < n; i++) {
+    if(!deviceSet.count(flows[i] ^ mask)) return INF;
   }
-
-  return min(
-    dfs(k + 1, mask, flips),
-    dfs(k + 1, mask | (1 << k), flips + 1));
+  return bitCount(mask);
 }
 
 int main() {
@@ -55,12 +50,13 @@ int main() {
     for(int i = 0; i < n; i++)
       devices[i] = readBin();
 
-    sort(devices, devices + n);
-    int res = dfs(0, 0, 0);
+    int best = INF;
+    for(int i = 0; i < n; i++)
+      best = min(best, tryMatch(i));
 
     cout << "Case #" << tc << ": ";
-    if(res == INF)  cout << "NOT POSSIBLE" << endl;
-    else cout << res << endl;
+    if(best == INF) cout << "NOT POSSIBLE" << endl;
+    else cout << best << endl;
   }
   return 0;
 }

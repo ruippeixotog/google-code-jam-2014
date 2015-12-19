@@ -30,7 +30,7 @@ The following is the list of the problems solved. Each problem identifier is spe
 
 ### Round 1A
 
-* ✗ [A: Charging Chaos][round1a1] (`charging-chaos`)
+* ✓ [A: Charging Chaos][round1a1] (`charging-chaos`)
 * ✗ [B: Full Binary Tree][round1a2] (`full-binary-tree`)
 
 ### Round 1B
