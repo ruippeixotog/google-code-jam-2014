@@ -32,6 +32,7 @@ The following is the list of the problems solved. Each problem identifier is spe
 
 * ✓ [A: Charging Chaos][round1a1] (`charging-chaos`)
 * ✓ [B: Full Binary Tree][round1a2] (`full-binary-tree`)
+* ✓ [C: Proper Shuffle][round1a3] (`proper-shuffle`)
 
 ### Round 1B
 
@@ -56,6 +57,7 @@ The following is the list of the problems solved. Each problem identifier is spe
 [qual4]: https://code.google.com/codejam/contest/2974486/dashboard#s=p3
 [round1a1]: https://code.google.com/codejam/contest/2984486/dashboard#s=p0
 [round1a2]: https://code.google.com/codejam/contest/2984486/dashboard#s=p1
+[round1a3]: https://code.google.com/codejam/contest/2984486/dashboard#s=p2
 [round1b1]: https://code.google.com/codejam/contest/2994486/dashboard#s=p0
 [round1b2]: https://code.google.com/codejam/contest/2994486/dashboard#s=p1
 [round1b3]: https://code.google.com/codejam/contest/2994486/dashboard#s=p2
