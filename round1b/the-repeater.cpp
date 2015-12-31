@@ -1,6 +1,5 @@
 #include <algorithm>
-#include <cmath>
-#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -10,64 +9,48 @@
 
 using namespace std;
 
-vector<int> counts[MAXN];
+int n;
+string strs[MAXN];
+int idxs[MAXN];
+
+int calcMoves() {
+  int moves = 0;
+  memset(idxs, 0, sizeof(idxs));
+
+  while(idxs[0] < strs[0].length()) {
+    char ch = strs[0][idxs[0]];
+    vector<int> counts;
+
+    for(int i = 0; i < n; i++) {
+      int cnt = 0;
+      while(idxs[i] < strs[i].length() && strs[i][idxs[i]] == ch) {
+        idxs[i]++; cnt++;
+      }
+      if(cnt == 0) return -1;
+      counts.push_back(cnt);
+    }
+
+    sort(counts.begin(), counts.end());
+    int med = counts[n / 2];
+    for(int i = 0; i < n; i++) {
+      moves += abs(counts[i] - med);
+    }
+  }
+
+  for(int i = 0; i < n; i++) {
+    if(idxs[i] != strs[i].length()) return -1;
+  }
+  return moves;
+}
 
 int main() {
   int t; cin >> t;
   for(int tc = 1; tc <= t; tc++) {
-    int n; cin >> n;
+    cin >> n;
+    for(int i = 0; i < n; i++)
+      cin >> strs[i];
 
-    cerr << n << endl;
-
-    string canon = "";
-    vector<int> canonCount;
-
-    bool lost = false;
-
-    for(int i = 0; i < n; i++) {
-      string str; cin >> str;
-      counts[i].clear();
-
-      if(lost) continue;
-
-      string canon2;
-
-      char last = 0;
-      int lastCount = 0;
-      for(int j = 0; j < (int) str.length(); j++) {
-        if(str[j] != last) {
-          if(lastCount > 0)
-            counts[i].push_back(lastCount);
-          last = str[j];
-          lastCount = 1;
-
-          canon2.push_back(str[j]);
-        } else {
-          lastCount++;
-        }
-      }
-      counts[i].push_back(lastCount);
-
-      if(canon == "") {
-        canon = canon2;
-      } else if(canon != canon2) {
-        lost = true;
-      }
-    }
-
-    int moves = -1;
-    if(!lost) {
-      moves = 0;
-      for(int i = 0; i < (int) counts[0].size(); i++) {
-        int sum = 0;
-        for(int j = 0; j < n; j++)
-          sum += counts[j][i];
-
-        int avg = round(sum / (double) n);
-        for(int j = 0; j < n; j++)
-          moves += abs(counts[j][i] - avg);
-      }
-    }
+    int moves = calcMoves();
 
     cout << "Case #" << tc << ": ";
     if(moves < 0) cout << "Fegla Won" << endl;
