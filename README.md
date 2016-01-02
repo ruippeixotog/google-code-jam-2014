@@ -37,7 +37,7 @@ The following is the list of the problems solved. Each problem identifier is spe
 ### Round 1B
 
 * ✓ [A: The Repeater][round1b1] (`the-repeater`)
-* ✗ [B: New Lottery Game][round1b2] (`new-lottery-game`)
+* ✓ [B: New Lottery Game][round1b2] (`new-lottery-game`)
 * ✗ [C: The Bored Traveling Salesman][round1b3] (`the-bored-traveling-salesman`)
 
 ### Round 1C
