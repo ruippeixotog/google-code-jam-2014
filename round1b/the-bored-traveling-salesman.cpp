@@ -1,120 +1,124 @@
 #include <algorithm>
-#include <cmath>
-#include <cstdio>
 #include <cstring>
-#include <string>
-#include <sstream>
 #include <iostream>
+#include <stack>
 #include <vector>
-#include <set>
-#include <map>
-#include <queue>
 
 #define ll long long
-#define siterator set<int>::iterator
-#define miterator map<int, set<int> >::iterator
 
-#define MAXN 8
-#define INF 1e9
+#define MAXN 50
+
+#define NOT_VISITED 0
+#define IN_PATH 1
+#define LOCKED 2
 
 using namespace std;
 
+int n;
 int codes[MAXN];
-map<int, set<int> > adjs;
-map<int, int> numConnections;
+vector<int> adjs[MAXN];
+bool adjMatrix[MAXN][MAXN];
 
-vector<int> sol;
-set<int> used;
+int order[MAXN];
+int status[MAXN];
+bool visited[MAXN];
 
-set<int> seen;
-bool dfsReachable(int from, int to, int parent) {
-  if(seen.count(from)) return false;
-  if(from == to) return true;
-  seen.insert(from);
+vector<int> solution;
 
-  set<int>& cityAdjs = adjs[from];
-  for(siterator it = cityAdjs.begin(); it != cityAdjs.end(); it++) {
-    if(*it != parent && dfsReachable(*it, to, from)) return true;
+bool codeOrder(int a, int b) { return codes[a] < codes[b]; }
+
+bool isReachable(int node) {
+  if(status[node] == LOCKED) return false;
+  if(status[node] == IN_PATH) return true;
+
+  if(visited[node]) return false;
+  visited[node] = true;
+
+  bool reachable = false;
+  for(int i = 0; i < adjs[node].size(); i++) {
+    if(isReachable(adjs[node][i])) reachable = true;
   }
-  return false;
+  return reachable;
 }
 
-void dfs(int city, int parentUpper) {
-  used.insert(city);
-  // cerr << "city: " << city << " - upper is " << parentUpper << endl;
-  sol.push_back(city);
+void search() {
+  stack<int> path;
+  path.push(order[0]);
+  solution.push_back(codes[order[0]]);
+  status[order[0]] = IN_PATH;
 
-  set<int>& cityAdjs = adjs[city];
+  while(solution.size() < n) {
+    for(int i = 1; i < n; i++) {
+      int node = order[i];
+      if(status[node] != NOT_VISITED) continue;
 
-  int lastMandatory = -1;
-  for(siterator it = cityAdjs.begin(); it != cityAdjs.end(); it++) {
-    int adj = *it;
-    if(used.count(adj)) continue;
+      stack<int> left;
+      while(!path.empty() && !adjMatrix[path.top()][node]) {
+        left.push(path.top());
+        status[path.top()] = LOCKED;
+        path.pop();
+      }
 
-    // if(numConnections[adj] == 1)
-    //   lastMandatory = adj;
+      status[node] = IN_PATH;
+      bool canLock;
 
-    seen.clear();
-    if(!dfsReachable(adj, city, city)) {
-      lastMandatory = adj;
+      if(path.empty()) {
+        canLock = false;
+      } else {
+        memset(visited, false, sizeof(visited));
+        canLock = true;
+        for(int i = 0; i < n; i++) {
+          if(status[i] == NOT_VISITED && !visited[i] && !isReachable(i)) {
+            canLock = false; break;
+          }
+        }
+      }
+
+      if(!canLock) {
+        while(!left.empty()) {
+          path.push(left.top());
+          status[left.top()] = IN_PATH;
+          left.pop();
+        }
+        status[node] = NOT_VISITED;
+        continue;
+      }
+
+      path.push(node);
+      solution.push_back(codes[node]);
+      break;
     }
-  }
-
-  int childUpper = max(parentUpper, lastMandatory);
-
-  for(siterator it = cityAdjs.begin(); it != cityAdjs.end(); it++) {
-    int adj = *it;
-    if(used.count(adj)) continue;
-
-    seen.clear();
-    if(adj <= childUpper || !dfsReachable(adj, city, city)) { // WARN
-      siterator nextIt = it; nextIt++;
-      int upper = childUpper;
-      if(nextIt != cityAdjs.end())
-        upper = min(upper, *nextIt);
-
-      dfs(adj, upper);
-    }
-
-    numConnections[adj]--;
   }
 }
 
 int main() {
   int t; cin >> t;
   for(int tc = 1; tc <= t; tc++) {
-    int n, m; cin >> n >> m;
+    int m; cin >> n >> m;
 
-    cerr << n << " " << m << endl;
-
-    adjs.clear();
-    numConnections.clear();
-    sol.clear();
-    used.clear();
-
-    for(int i = 0; i < n; i++)
+    for(int i = 0; i < n; i++) {
       cin >> codes[i];
+      adjs[i].clear();
+      order[i] = i;
+    }
+
+    memset(adjMatrix, false, sizeof(adjMatrix));
 
     for(int i = 0; i < m; i++) {
-      int a, b; cin >> a >> b;
-      --a; --b;
-      adjs[codes[a]].insert(codes[b]);
-      adjs[codes[b]].insert(codes[a]);
+      int a, b; cin >> a >> b; a--; b--;
+      adjs[a].push_back(b);
+      adjs[b].push_back(a);
+      adjMatrix[a][b] = adjMatrix[b][a] = true;
     }
 
-    for(int i = 0; i < n; i++)
-      numConnections[codes[i]] = adjs[codes[i]].size();
-
-    dfs(adjs.begin()->first, INF);
-
-    if((int) sol.size() != n) {
-      cerr << "FAIL" << endl;
-      break;
-    }
+    sort(order, order + n, codeOrder);
+    memset(status, 0, sizeof(status));
+    solution.clear();
+    search();
 
     cout << "Case #" << tc << ": ";
-    for(int i = 0; i < (int) sol.size(); i++)
-      cout << sol[i];
+    for(int i = 0; i < solution.size(); i++)
+      cout << solution[i];
     cout << endl;
   }
   return 0;
