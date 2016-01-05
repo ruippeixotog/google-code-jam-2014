@@ -43,7 +43,7 @@ The following is the list of the problems solved. Each problem identifier is spe
 ### Round 1C
 
 * ✓ [A: Part Elf][round1c1] (`part-elf`)
-* ✗ [B: Reordering Train Cars][round1c2] (`reordering-train-cars`)
+* ✓ [B: Reordering Train Cars][round1c2] (`reordering-train-cars`)
 * ✗ [C: Enclosure][round1c3] (`enclosure`)
 
 ### Round 2
