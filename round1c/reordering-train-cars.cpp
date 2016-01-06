@@ -31,20 +31,17 @@ int main() {
       int pure = 0;
       string s0, s1;
 
-      // cerr << "CHAR " << c << endl;
-
       for(literator it = strs.begin(); it != strs.end();) {
         int idx = (*it).find(c);
         if(idx == -1) { it++; continue; }
 
         string str = *it;
         it = strs.erase(it);
-        // cerr << "GET " << str << endl;
 
-        if((int) str.find_first_not_of(c) == -1) pure++;
+        if(str.find_first_not_of(c) == -1) pure++;
         else {
-          while(idx < (int) str.length() && str[idx] == c) idx++;
-          if((int) str.find(c, idx) != -1) { count = 0; break; }
+          while(idx < str.length() && str[idx] == c) idx++;
+          if(str.find(c, idx) != -1) { count = 0; break; }
 
           if(s0 == "") s0 = str;
           else if(s1 == "") s1 = str;
@@ -63,12 +60,9 @@ int main() {
       } else {
         if(pure > 0) strs.push_back(string(1, c));
       }
-
     }
-    // cerr << "LEN " << strs.size() << endl;
 
     count = (count * fact(strs.size())) % MOD;
-
     cout << "Case #" << tc << ": " << count << endl;
   }
   return 0;
