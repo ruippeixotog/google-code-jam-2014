@@ -1,55 +1,53 @@
 #include <algorithm>
-#include <cstring>
 #include <iostream>
 
-#define MAXN 20
-#define MAXM 20
 #define INF 1e8
+
+#define OPEN 2
+#define NORMAL 1
+#define CLOSE 0
 
 using namespace std;
 
 int n, m, k;
 
-bool selected[MAXN][MAXM];
-bool visited[MAXN][MAXM];
+int dfs(int i, int j1, int j2, int st1, int st2, int stones, int enclosed) {
+  if(i == n || j1 > j2) return INF;
 
-int ffill(int i, int j) {
-  if(i < 0 || j < 0 || i >= n || j >= m ||
-    visited[i][j] || selected[i][j]) return 0;
+  if(i == 0) { stones += j2 - j1 + 1; }
+  else { stones += (j1 == j2 ? 1 : 2); }
 
-  visited[i][j] = true;
+  enclosed += j2 - j1 + 1;
 
-  return 1 + ffill(i + 1, j) + ffill(i - 1, j) +
-    ffill(i, j + 1) + ffill(i, j - 1);
-}
-
-int numEnclosed() {
-  memset(visited, false, sizeof(visited));
-
-  int count = 0;
-  for(int i = 0; i < n; i++) {
-    count += ffill(i, 0);
-    count += ffill(i, m - 1);
-  }
-  for(int j = 0; j < m; j++) {
-    count += ffill(0, j);
-    count += ffill(n - 1, j);
-  }
-  return n * m - count;
-}
-
-int dfs(int i, int j) {
-  if(j >= m) { j = 0; i++; }
-  if(i >= n) {
-    return numEnclosed() >= k ? 0 : INF;
+  int best = INF;
+  if(enclosed >= k) {
+    if(i == 0) { best = stones; }
+    else { best = stones + max(0, j2 - j1 - 1); }
   }
 
-  int res = dfs(i, j + 1);
-  selected[i][j] = true;
-  res = min(res, dfs(i, j + 1) + 1);
-  selected[i][j] = false;
+  if(st1 == OPEN && j1 > 0) {
+    if(st2 == OPEN && j2 < m - 1)
+      best = min(best, dfs(i + 1, j1 - 1, j2 + 1, OPEN, OPEN, stones, enclosed));
+    if(st2 >= NORMAL)
+      best = min(best, dfs(i + 1, j1 - 1, j2, OPEN, NORMAL, stones, enclosed));
+    best = min(best, dfs(i + 1, j1 - 1, j2 - 1, OPEN, CLOSE, stones, enclosed));
+  }
 
-  return res;
+  if(st1 >= NORMAL) {
+    if(st2 == OPEN && j2 < m - 1)
+      best = min(best, dfs(i + 1, j1, j2 + 1, NORMAL, OPEN, stones, enclosed));
+    if(st2 >= NORMAL)
+      best = min(best, dfs(i + 1, j1, j2, NORMAL, NORMAL, stones, enclosed));
+    best = min(best, dfs(i + 1, j1, j2 - 1, NORMAL, CLOSE, stones, enclosed));
+  }
+
+  if(st2 == OPEN && j2 < m - 1)
+    best = min(best, dfs(i + 1, j1 + 1, j2 + 1, CLOSE, OPEN, stones, enclosed));
+  if(st2 >= NORMAL)
+    best = min(best, dfs(i + 1, j1 + 1, j2, CLOSE, NORMAL, stones, enclosed));
+  best = min(best, dfs(i + 1, j1 + 1, j2 - 1, CLOSE, CLOSE, stones, enclosed));
+
+  return best;
 }
 
 int main() {
@@ -57,10 +55,13 @@ int main() {
   for(int tc = 1; tc <= t; tc++) {
     cin >> n >> m >> k;
 
-    memset(selected, false, sizeof(selected));
-    int res = dfs(0, 0);
-
-    cout << "Case #" << tc << ": " << res << endl;
+    int best = INF;
+    for(int j1 = 0; j1 < m; j1++) {
+      for(int j2 = j1; j2 < m; j2++) {
+        best = min(best, dfs(0, j1, j2, OPEN, OPEN, 0, 0));
+      }
+    }
+    cout << "Case #" << tc << ": " << best << endl;
   }
   return 0;
 }
