@@ -1,70 +1,46 @@
 #include <algorithm>
+#include <cstdio>
 #include <cstring>
-#include <iostream>
-#include <set>
-
-#define siterator set<int>::iterator
+#include <numeric>
 
 #define MAXN 1000
-#define INF 1e8
+#define INF 0x3f3f3f3f
 
 using namespace std;
 
-int arr[MAXN], ups[MAXN], downs[MAXN];
+int a[MAXN];
+
+int order[MAXN], dp[MAXN + 1][MAXN + 1];
 
 int main() {
-  int t; cin >> t;
+  int t; scanf("%d\n", &t);
   for(int tc = 1; tc <= t; tc++) {
-    int n; cin >> n;
+    int n; scanf("%d\n", &n);
+    for(int i = 0; i < n; i++)
+      scanf("%d", &a[i]);
 
-    int maxVal = 0;
-    int maxIdx = 0;
-    for(int i = 0; i < n; i++) {
-      cin >> arr[i];
-      if(arr[i] > maxVal) { maxVal = arr[i]; maxIdx = i; }
-    }
+    iota(order, order + n, 0);
+    sort(order, order + n, [](int i, int j) {return a[i] < a[j]; });
 
-    set<int> left;
-    ups[0] = 0;
-    left.insert(arr[0]);
-    for(int i = 1; i < n; i++) {
-      ups[i] = ups[i - 1];
-      if(i != maxIdx) {
-        siterator pos = left.upper_bound(arr[i]);
-        ups[i] += distance(pos, left.end());
-        left.insert(arr[i]);
+    memset(dp, 0x3f, sizeof(dp));
+    dp[0][0] = 0;
+
+    for(int k = 0; k < n; k++) {
+      int currOrder = order[k];
+      for(int i = 0; i < k; i++) {
+        if(order[i] < order[k]) currOrder--;
+      }
+      for(int i = 0; i <= k; i++) {
+        int j = k - i;
+        dp[i + 1][j] = min(dp[i + 1][j], dp[i][j] + currOrder);
+        dp[i][j + 1] = min(dp[i][j + 1], dp[i][j] + n - k - 1 - currOrder);
       }
     }
-
-    set<int> right;
-    downs[n - 1] = 0;
-    right.insert(arr[n - 1]);
-    for(int i = n - 2; i >= 0; i--) {
-      // cerr << "right idx " << i << endl;
-      downs[i] = downs[i + 1];
-      if(i != maxIdx) {
-        siterator pos = right.upper_bound(arr[i]);
-        // cerr << "right pos of " << arr[i] << endl;
-        // cerr << "dist is " << distance(pos, right.end()) << endl;
-
-        downs[i] += distance(pos, right.end());
-        right.insert(arr[i]);
-      }
-    }
-
     int best = INF;
-    for(int i = 0; i < n; i++) {
-      int pivotDist = abs(i - maxIdx);
-      int upMoves = (i == 0 ? 0 : ups[i < maxIdx ? i - 1 : i]);
-      int downMoves = (i == 0 ? 0 : downs[i > maxIdx ? i + 1 : i]);
-
-      // cerr << "pivot in i " << pivotDist << " " << upMoves << " " <<
-      //   downMoves << endl;
-
-      best = min(best, pivotDist + upMoves + downMoves);
+    for(int i = 0; i <= n; i++) {
+      best = min(best, dp[i][n - i]);
     }
-
-    cout << "Case #" << tc << ": " << best << endl;
+    printf("Case #%d: %d\n", tc, best);
   }
   return 0;
 }
